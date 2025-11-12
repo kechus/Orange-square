@@ -2,7 +2,6 @@ function rain(x,y){
   const diameter = 10;
   fill(0, 0, 0);
   circle(x,y,diameter);
-  const thing = 0;
   const RADIUS = diameter/2;
   triangle(x-RADIUS,y, 
            x, y-10, 
@@ -13,13 +12,13 @@ class Raindrop{
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.sound = loadSound('assets/drop.mp3');
+    this.sound = SOUNDS.rain;
   }
   
   animate(){
     rain(this.x,this.y);
     this.y = this.y + 20;
-    if((this.y > random(500,600)) && (0.3 > random())){
+    if((this.y > random(500,600) && this.y < 600) && (0.3 > random())){
       this.sound.play();
     }
   }

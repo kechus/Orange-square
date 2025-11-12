@@ -16,8 +16,9 @@ function setup() {
   const startTick = millis();
   //for keycodes use https://www.toptal.com/developers/keycode
   CONTROLLERS = [
-    new PressController(82, new RaindropCreator(startTick)),
-    new PressController(84, new TireCreator(startTick)),
+    new PressController(82, new RaindropCreator()),
+    new PressController(84, new TireCreator()),
+    new PressController(80, new BirdCreator()),
   ]
 }
 
@@ -31,9 +32,17 @@ function draw() {
     if (keyIsDown(controller.keycode)) {
       controller.lastTick = tick;
       controller.creator.animate();
+
+      const wasPressed = controller.creator.startedPressing;
+      if(!wasPressed){
+        controller.creator.setStartTime()
+        controller.creator.toggleStartPressing(true)
+      }
     }
+
     if (millis() - controller.lastTick < 5000 && controller.lastTick !== tick && controller.lastTick !== null) {
       controller.creator.animate(false);
+      controller.creator.toggleStartPressing(false)
     }
   }
 }

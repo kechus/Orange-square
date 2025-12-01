@@ -8,7 +8,19 @@ class Bird extends Figure {
   }
   drawFigure(x, y) {
     fill(0);
-    circle(x, y, 50);
+    const DIAMETER = 40;
+    const RADIUS = DIAMETER / 2;
+    circle(x, y, DIAMETER);
+
+    triangle(x - 5, y - RADIUS,
+      x + DIAMETER, y,
+      x - 5, y + RADIUS);
+
+    //if we are inside the square, draw eye
+    if(x > 200 && x < 600){
+      fill("orange")
+      circle(x+5,y-5,10)
+    }
   }
 }
 

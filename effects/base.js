@@ -1,12 +1,13 @@
 const PATTERNS = {
-  top:'top',
-  sides:'sides',
-  both:'both'
+  top: 'top',
+  sides: 'sides',
+  both: 'both',
+  grow: 'grow'
 }
 
 class Figure {
-  constructor({ sound, volume , pattern}) {
-    switch(pattern){
+  constructor({ sound, volume, pattern }) {
+    switch (pattern) {
       case 'top':
         this.isFromSides = false;
         break;
@@ -17,15 +18,26 @@ class Figure {
         const isFromSides = 0.5 > random()
         this.isFromSides = isFromSides;
         break
+      case 'grow':
+        break;
     }
-    const coords = this.getInitialCoords()
+    this.pattern = pattern
+    const coords = this.getInitialCoords(pattern)
     this.x = coords.x
     this.y = coords.y
     this.sound = sound;
     this.sound.setVolume(volume)
   }
 
-  getInitialCoords() {
+  getInitialCoords(pattern) {
+    //if its grow
+    if (pattern === 'grow') {
+      return {
+        x: random(200, 600),
+        y: random(200, 600),
+      }
+    }
+
     //if from the sides
     let xLowerLimit = -200;
     let xUpperLimit = 0;
@@ -49,6 +61,17 @@ class Figure {
   drawFigure(x, y) { }
 
   animate() {
+    if (this.pattern === 'grow') {
+      if(this.diameter > 20){
+        return
+      }
+      this.drawFigure(this.x, this.y);
+      if (this.diameter == 20 && .4 > random()) {
+        this.sound.play()
+      }
+      return
+    }
+
     this.drawFigure(this.x, this.y);
     let threshold
     if (this.isFromSides) {
@@ -102,6 +125,12 @@ class Creator {
 
     for (let i = 0; i < this.limit; i++) {
       this.items[i].animate();
+      if(this.items[i].pattern === 'grow'){
+        if(this.items[i].diameter >= 20 && shouldSpawn){
+          this.items[i] = new this.classname()
+        }
+      }
+
       if ((this.items[i].y >= 600 || this.items[i].x >= 600) && shouldSpawn) {
         this.items[i] = new this.classname()
       }

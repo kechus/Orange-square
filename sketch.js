@@ -16,9 +16,11 @@ function setup() {
   const startTick = millis();
   //for keycodes use https://www.toptal.com/developers/keycode
   CONTROLLERS = [
-    new PressController(82, new RaindropCreator()),
-    new PressController(84, new TireCreator()),
-    new PressController(80, new BirdCreator()),
+    new PressController(82, new RaindropCreator()),//r
+    new PressController(84, new TireCreator()), //t
+    new PressController(80, new BirdCreator()), //p
+
+    new PressController(66, new RippleCreator()), //b
   ]
 }
 
@@ -45,4 +47,5 @@ function draw() {
       controller.creator.toggleStartPressing(false)
     }
   }
+
 }
